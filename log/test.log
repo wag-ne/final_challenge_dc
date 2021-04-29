@@ -1,0 +1,731 @@
+  [1m[35m (357.6ms)[0m  [1m[35mDROP DATABASE IF EXISTS "delivery_ruby_test"[0m
+  [1m[35m (541.2ms)[0m  [1m[35mCREATE DATABASE "delivery_ruby_test" ENCODING = 'unicode'[0m
+  [1m[35mSQL (4.4ms)[0m  [1m[35mCREATE EXTENSION IF NOT EXISTS "plpgsql"[0m
+  [1m[35m (2.4ms)[0m  [1m[35mDROP TABLE IF EXISTS "customers" CASCADE[0m
+  [1m[35m (22.2ms)[0m  [1m[35mCREATE TABLE "customers" ("id" bigserial primary key, "external_id" character varying, "name" character varying, "email" character varying, "contact" character varying, "order_id" bigint NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (4.6ms)[0m  [1m[35mCREATE  INDEX  "index_customers_on_order_id" ON "customers"  ("order_id")[0m
+  [1m[35m (0.9ms)[0m  [1m[35mDROP TABLE IF EXISTS "items" CASCADE[0m
+  [1m[35m (10.6ms)[0m  [1m[35mCREATE TABLE "items" ("id" bigserial primary key, "external_code" character varying, "name" character varying, "price" float, "quantity" integer, "total" float, "order_id" bigint NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (5.2ms)[0m  [1m[35mCREATE  INDEX  "index_items_on_order_id" ON "items"  ("order_id")[0m
+  [1m[35m (1.2ms)[0m  [1m[35mDROP TABLE IF EXISTS "orders" CASCADE[0m
+  [1m[35m (10.2ms)[0m  [1m[35mCREATE TABLE "orders" ("id" bigserial primary key, "external_code" character varying, "store_id" integer, "sub_total" character varying, "delivery_fee" character varying, "total" character varying, "country" character varying, "state" character varying, "city" character varying, "district" character varying, "street" character varying, "complement" character varying, "latitude" decimal(10,6), "longitude" decimal(10,6), "dt_order_create" character varying, "postal_code" character varying, "number" character varying, "total_shipping" float, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (1.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "payments" CASCADE[0m
+  [1m[35m (14.1ms)[0m  [1m[35mCREATE TABLE "payments" ("id" bigserial primary key, "modality" character varying, "value" float, "order_id" bigint NOT NULL, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[35m (3.8ms)[0m  [1m[35mCREATE  INDEX  "index_payments_on_order_id" ON "payments"  ("order_id")[0m
+  [1m[35m (3.9ms)[0m  [1m[35mALTER TABLE "customers" ADD CONSTRAINT "fk_rails_89866406f0"
+FOREIGN KEY ("order_id")
+  REFERENCES "orders" ("id")
+[0m
+  [1m[35m (2.3ms)[0m  [1m[35mALTER TABLE "items" ADD CONSTRAINT "fk_rails_53153f3b4b"
+FOREIGN KEY ("order_id")
+  REFERENCES "orders" ("id")
+[0m
+  [1m[35m (2.8ms)[0m  [1m[35mALTER TABLE "payments" ADD CONSTRAINT "fk_rails_6af949464b"
+FOREIGN KEY ("order_id")
+  REFERENCES "orders" ("id")
+[0m
+  [1m[35m (9.8ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" character varying NOT NULL PRIMARY KEY)[0m
+  [1m[35m (1.4ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (2.6ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20200910211443)[0m
+  [1m[35m (2.7ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20200910210436),
+(20200910210918),
+(20200910211249);
+
+[0m
+  [1m[35m (7.1ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" character varying NOT NULL PRIMARY KEY, "value" character varying, "created_at" timestamp(6) NOT NULL, "updated_at" timestamp(6) NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (2.9ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[35m (1.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (2.4ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "environment"], ["value", "test"], ["created_at", "2021-04-28 15:20:40.190039"], ["updated_at", "2021-04-28 15:20:40.190039"]]
+  [1m[35m (1.3ms)[0m  [1m[35mCOMMIT[0m
+  [1m[36mActiveRecord::InternalMetadata Load (1.2ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::InternalMetadata Load (1.1ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1 LIMIT $2[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[36mActiveRecord::InternalMetadata Create (2.1ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES ($1, $2, $3, $4) RETURNING "key"[0m  [["key", "schema_sha1"], ["value", "fcf7de786f3aad1802de9a0b2a458414e34ed2a6"], ["created_at", "2021-04-28 15:20:40.202030"], ["updated_at", "2021-04-28 15:20:40.202030"]]
+  [1m[35m (2.0ms)[0m  [1m[35mCOMMIT[0m
+  [1m[35m (1.5ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (1.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (2.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.0ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.8ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.7ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.6ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.0ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.0ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.5ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.9ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.8ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.0ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (2.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.6ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.9ms)[0m  [1m[35mBEGIN[0m
+Started POST "/api/v1/orders" for 127.0.0.1 at 2021-04-28 12:20:40 -0300
+Processing by Api::V1::OrdersController#create as HTML
+  Parameters: {"externalCode"=>"9987071", "storeId"=>"282", "subTotal"=>"49.90", "deliveryFee"=>"5.14", "total"=>"55.04", "country"=>"BR", "state"=>"SP", "city"=>"Cidade de Testes", "district"=>"Vila de Testes", "street"=>"Rua de Testes Fake", "complement"=>"galpao", "latitude"=>"-23.629037", "longitude"=>"-46.712689", "dtOrderCreate"=>"2019-06-24T16:45:32.000-04:00", "postalCode"=>"85045020", "number"=>"3454", "total_shipping"=>"5.14", "customer"=>{"externalCode"=>"136226073", "name"=>"JOHN DOE", "email"=>"john@doe.com", "contact"=>"41999999999"}, "items"=>[{"externalCode"=>"IT4801901403", "name"=>"Produto de Testes", "price"=>"49.9", "quantity"=>"1", "total"=>"49.9", "subItems"=>[""]}], "payments"=>[{"type"=>"CREDIT_CARD", "value"=>"55.04"}]}
+Completed 404 Not Found in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms | Allocations: 983)
+  [1m[35m (1.7ms)[0m  [1m[34mSELECT COUNT(*) FROM "items"[0m
+  [1m[35m (1.5ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.3ms)[0m  [1m[35mBEGIN[0m
+Started POST "/api/v1/orders" for 127.0.0.1 at 2021-04-28 12:20:41 -0300
+Processing by Api::V1::OrdersController#create as HTML
+  Parameters: {"externalCode"=>"9987071", "storeId"=>"282", "subTotal"=>"49.90", "deliveryFee"=>"5.14", "total"=>"55.04", "country"=>"BR", "state"=>"SP", "city"=>"Cidade de Testes", "district"=>"Vila de Testes", "street"=>"Rua de Testes Fake", "complement"=>"galpao", "latitude"=>"-23.629037", "longitude"=>"-46.712689", "dtOrderCreate"=>"2019-06-24T16:45:32.000-04:00", "postalCode"=>"85045020", "number"=>"3454", "total_shipping"=>"5.14", "customer"=>{"externalCode"=>"136226073", "name"=>"JOHN DOE", "email"=>"john@doe.com", "contact"=>"41999999999"}, "items"=>[{"externalCode"=>"IT4801901403", "name"=>"Produto de Testes", "price"=>"49.9", "quantity"=>"1", "total"=>"49.9", "subItems"=>[""]}], "payments"=>[{"type"=>"CREDIT_CARD", "value"=>"55.04"}]}
+Completed 404 Not Found in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms | Allocations: 885)
+  [1m[35m (1.5ms)[0m  [1m[34mSELECT COUNT(*) FROM "orders"[0m
+  [1m[35m (2.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+Started POST "/api/v1/orders" for 127.0.0.1 at 2021-04-28 12:20:41 -0300
+Processing by Api::V1::OrdersController#create as HTML
+  Parameters: {"externalCode"=>"9987071", "storeId"=>"282", "subTotal"=>"49.90", "deliveryFee"=>"5.14", "total"=>"55.04", "country"=>"BR", "state"=>"SP", "city"=>"Cidade de Testes", "district"=>"Vila de Testes", "street"=>"Rua de Testes Fake", "complement"=>"galpao", "latitude"=>"-23.629037", "longitude"=>"-46.712689", "dtOrderCreate"=>"2019-06-24T16:45:32.000-04:00", "postalCode"=>"85045020", "number"=>"3454", "total_shipping"=>"5.14", "customer"=>{"externalCode"=>"136226073", "name"=>"JOHN DOE", "email"=>"john@doe.com", "contact"=>"41999999999"}, "items"=>[{"externalCode"=>"IT4801901403", "name"=>"Produto de Testes", "price"=>"49.9", "quantity"=>"1", "total"=>"49.9", "subItems"=>[""]}], "payments"=>[{"type"=>"CREDIT_CARD", "value"=>"55.04"}]}
+Completed 404 Not Found in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms | Allocations: 885)
+  [1m[35m (2.0ms)[0m  [1m[34mSELECT COUNT(*) FROM "customers"[0m
+  [1m[35m (1.6ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.4ms)[0m  [1m[35mBEGIN[0m
+Started POST "/api/v1/orders" for 127.0.0.1 at 2021-04-28 12:20:41 -0300
+Processing by Api::V1::OrdersController#create as HTML
+  Parameters: {"externalCode"=>"9987071", "storeId"=>"282", "subTotal"=>"49.90", "deliveryFee"=>"5.14", "total"=>"55.04", "country"=>"BR", "state"=>"SP", "city"=>"Cidade de Testes", "district"=>"Vila de Testes", "street"=>"Rua de Testes Fake", "complement"=>"galpao", "latitude"=>"-23.629037", "longitude"=>"-46.712689", "dtOrderCreate"=>"2019-06-24T16:45:32.000-04:00", "postalCode"=>"85045020", "number"=>"3454", "total_shipping"=>"5.14", "customer"=>{"externalCode"=>"136226073", "name"=>"JOHN DOE", "email"=>"john@doe.com", "contact"=>"41999999999"}, "items"=>[{"externalCode"=>"IT4801901403", "name"=>"Produto de Testes", "price"=>"49.9", "quantity"=>"1", "total"=>"49.9", "subItems"=>[""]}], "payments"=>[{"type"=>"CREDIT_CARD", "value"=>"55.04"}]}
+Completed 404 Not Found in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms | Allocations: 885)
+  [1m[35m (1.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.9ms)[0m  [1m[35mBEGIN[0m
+Started POST "/api/v1/orders" for 127.0.0.1 at 2021-04-28 12:20:41 -0300
+Processing by Api::V1::OrdersController#create as HTML
+  Parameters: {"externalCode"=>"9987071", "storeId"=>"282", "subTotal"=>"49.90", "deliveryFee"=>"5.14", "total"=>"55.04", "country"=>"BR", "state"=>"SP", "city"=>"Cidade de Testes", "district"=>"Vila de Testes", "street"=>"Rua de Testes Fake", "complement"=>"galpao", "latitude"=>"-23.629037", "longitude"=>"-46.712689", "dtOrderCreate"=>"2019-06-24T16:45:32.000-04:00", "postalCode"=>"85045020", "number"=>"3454", "total_shipping"=>"5.14", "customer"=>{"externalCode"=>"136226073", "name"=>"JOHN DOE", "email"=>"john@doe.com", "contact"=>"41999999999"}, "items"=>[{"externalCode"=>"IT4801901403", "name"=>"Produto de Testes", "price"=>"49.9", "quantity"=>"1", "total"=>"49.9", "subItems"=>[""]}], "payments"=>[{"type"=>"CREDIT_CARD", "value"=>"55.04"}]}
+Completed 404 Not Found in 8ms (Views: 0.1ms | ActiveRecord: 0.0ms | Allocations: 886)
+  [1m[35m (2.1ms)[0m  [1m[34mSELECT COUNT(*) FROM "payments"[0m
+  [1m[35m (1.5ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+Started POST "/api/v1/orders" for 127.0.0.1 at 2021-04-28 12:20:41 -0300
+Processing by Api::V1::OrdersController#create as HTML
+  Parameters: {"id"=>"9987071", "store_id"=>"282", "date_created"=>"2019-06-24T16:45:32.000-04:00", "date_closed"=>"2019-06-24T16:45:35.000-04:00", "last_updated"=>"2019-06-25T13:26:49.000-04:00", "total_amount"=>"49.9", "total_shipping"=>"5.14", "total_amount_with_shipping"=>"55.04", "paid_amount"=>"55.04", "expiration_date"=>"2019-07-22T16:45:35.000-04:00", "order_items"=>[{"item"=>{"id"=>"IT4801901403", "title"=>"Produto de Testes"}, "quantity"=>"1", "unit_price"=>"49.9", "full_unit_price"=>"49.9"}], "payments"=>[{"id"=>"12312313", "order_id"=>"9987071", "payer_id"=>"414138", "installments"=>"1", "payment_type"=>"credit_card", "status"=>"paid", "transaction_amount"=>"49.9", "taxes_amount"=>"0", "shipping_cost"=>"5.14", "total_paid_amount"=>"55.04", "installment_amount"=>"55.04", "date_approved"=>"2019-06-24T16:45:35.000-04:00", "date_created"=>"2019-06-24T16:45:33.000-04:00"}], "shipping"=>{"id"=>"43444211797", "shipment_type"=>"shipping", "date_created"=>"2019-06-24T16:45:33.000-04:00", "receiver_address"=>{"id"=>"1051695306", "address_line"=>"Rua de Testes Fake 3454", "street_name"=>"Rua de Testes Fake", "street_number"=>"3454", "comment"=>"galpao", "zip_code"=>"85045020", "city"=>{"name"=>"Cidade de Testes"}, "state"=>{"id"=>"SP", "name"=>"São Paulo"}, "country"=>{"id"=>"BR", "name"=>"Brasil"}, "neighborhood"=>{"id"=>nil, "name"=>"Vila de Testes"}, "latitude"=>"-23.629037", "longitude"=>"-46.712689", "receiver_phone"=>"41999999999"}}, "status"=>"paid", "buyer"=>{"id"=>"136226073", "nickname"=>"JOHN DOE", "email"=>"john@doe.com", "phone"=>{"area_code"=>"41", "number"=>"999999999"}, "first_name"=>"John", "last_name"=>"Doe", "billing_info"=>{"doc_type"=>"CPF", "doc_number"=>"09487965477"}}}
+  [1m[35m (1.5ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOrder Create (3.0ms)[0m  [1m[32mINSERT INTO "orders" ("external_code", "store_id", "sub_total", "delivery_fee", "total", "country", "state", "city", "district", "street", "complement", "latitude", "longitude", "dt_order_create", "postal_code", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18) RETURNING "id"[0m  [["external_code", "9987071"], ["store_id", 282], ["sub_total", "49.90"], ["delivery_fee", "5.14"], ["total", "55.04"], ["country", "BR"], ["state", "SP"], ["city", "Cidade de Testes"], ["district", "Vila de Testes"], ["street", "Rua de Testes Fake"], ["complement", "galpao"], ["latitude", "-23.629037"], ["longitude", "-46.712689"], ["dt_order_create", "2019-06-24T16:45:32.000-04:00"], ["postal_code", "85045020"], ["number", "3454"], ["created_at", "2021-04-28 15:20:41.083196"], ["updated_at", "2021-04-28 15:20:41.083196"]]
+  [1m[36mCustomer Create (2.9ms)[0m  [1m[32mINSERT INTO "customers" ("external_id", "name", "email", "contact", "order_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["external_id", "136226073"], ["name", "JOHN DOE"], ["email", "john@doe.com"], ["contact", "41999999999"], ["order_id", 1], ["created_at", "2021-04-28 15:20:41.089520"], ["updated_at", "2021-04-28 15:20:41.089520"]]
+  [1m[36mItem Create (2.4ms)[0m  [1m[32mINSERT INTO "items" ("external_code", "name", "price", "quantity", "total", "order_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["external_code", "IT4801901403"], ["name", "Produto de Testes"], ["price", 49.9], ["quantity", 1], ["total", 49.9], ["order_id", 1], ["created_at", "2021-04-28 15:20:41.093335"], ["updated_at", "2021-04-28 15:20:41.093335"]]
+  [1m[36mPayment Create (4.3ms)[0m  [1m[32mINSERT INTO "payments" ("modality", "value", "order_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["modality", "CREDIT_CARD"], ["value", 55.04], ["order_id", 1], ["created_at", "2021-04-28 15:20:41.096658"], ["updated_at", "2021-04-28 15:20:41.096658"]]
+  [1m[35m (1.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 404 Not Found in 33ms (Views: 0.1ms | ActiveRecord: 15.2ms | Allocations: 13927)
+  [1m[35m (1.9ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.8ms)[0m  [1m[35mBEGIN[0m
+Started POST "/api/v1/orders" for 127.0.0.1 at 2021-04-28 12:20:41 -0300
+Processing by Api::V1::OrdersController#create as HTML
+Completed 404 Not Found in 0ms (Views: 0.1ms | ActiveRecord: 0.0ms | Allocations: 148)
+  [1m[35m (0.9ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.9ms)[0m  [1m[35mBEGIN[0m
+Started POST "/api/v1/orders" for 127.0.0.1 at 2021-04-28 12:20:41 -0300
+Processing by Api::V1::OrdersController#create as HTML
+Completed 404 Not Found in 0ms (Views: 0.1ms | ActiveRecord: 0.0ms | Allocations: 147)
+  [1m[35m (1.2ms)[0m  [1m[34mSELECT COUNT(*) FROM "orders"[0m
+  [1m[35m (0.7ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (2.4ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "schema_sha1"]]
+  [1m[35m (1.3ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (2.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.7ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.0ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.9ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.0ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.8ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.5ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.9ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.6ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (2.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.5ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.5ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.5ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.5ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (2.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.9ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.7ms)[0m  [1m[35mBEGIN[0m
+Started POST "/api/v1/orders" for 127.0.0.1 at 2021-04-28 12:21:29 -0300
+Processing by Api::V1::OrdersController#create as HTML
+Completed 404 Not Found in 0ms (Views: 0.1ms | ActiveRecord: 0.0ms | Allocations: 245)
+  [1m[35m (1.9ms)[0m  [1m[34mSELECT COUNT(*) FROM "orders"[0m
+  [1m[35m (1.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.6ms)[0m  [1m[35mBEGIN[0m
+Started POST "/api/v1/orders" for 127.0.0.1 at 2021-04-28 12:21:29 -0300
+Processing by Api::V1::OrdersController#create as HTML
+Completed 404 Not Found in 0ms (Views: 0.1ms | ActiveRecord: 0.0ms | Allocations: 147)
+  [1m[35m (1.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.9ms)[0m  [1m[35mBEGIN[0m
+Started POST "/api/v1/orders" for 127.0.0.1 at 2021-04-28 12:21:29 -0300
+Processing by Api::V1::OrdersController#create as HTML
+  Parameters: {"id"=>"9987071", "store_id"=>"282", "date_created"=>"2019-06-24T16:45:32.000-04:00", "date_closed"=>"2019-06-24T16:45:35.000-04:00", "last_updated"=>"2019-06-25T13:26:49.000-04:00", "total_amount"=>"49.9", "total_shipping"=>"5.14", "total_amount_with_shipping"=>"55.04", "paid_amount"=>"55.04", "expiration_date"=>"2019-07-22T16:45:35.000-04:00", "order_items"=>[{"item"=>{"id"=>"IT4801901403", "title"=>"Produto de Testes"}, "quantity"=>"1", "unit_price"=>"49.9", "full_unit_price"=>"49.9"}], "payments"=>[{"id"=>"12312313", "order_id"=>"9987071", "payer_id"=>"414138", "installments"=>"1", "payment_type"=>"credit_card", "status"=>"paid", "transaction_amount"=>"49.9", "taxes_amount"=>"0", "shipping_cost"=>"5.14", "total_paid_amount"=>"55.04", "installment_amount"=>"55.04", "date_approved"=>"2019-06-24T16:45:35.000-04:00", "date_created"=>"2019-06-24T16:45:33.000-04:00"}], "shipping"=>{"id"=>"43444211797", "shipment_type"=>"shipping", "date_created"=>"2019-06-24T16:45:33.000-04:00", "receiver_address"=>{"id"=>"1051695306", "address_line"=>"Rua de Testes Fake 3454", "street_name"=>"Rua de Testes Fake", "street_number"=>"3454", "comment"=>"galpao", "zip_code"=>"85045020", "city"=>{"name"=>"Cidade de Testes"}, "state"=>{"id"=>"SP", "name"=>"São Paulo"}, "country"=>{"id"=>"BR", "name"=>"Brasil"}, "neighborhood"=>{"id"=>nil, "name"=>"Vila de Testes"}, "latitude"=>"-23.629037", "longitude"=>"-46.712689", "receiver_phone"=>"41999999999"}}, "status"=>"paid", "buyer"=>{"id"=>"136226073", "nickname"=>"JOHN DOE", "email"=>"john@doe.com", "phone"=>{"area_code"=>"41", "number"=>"999999999"}, "first_name"=>"John", "last_name"=>"Doe", "billing_info"=>{"doc_type"=>"CPF", "doc_number"=>"09487965477"}}}
+  [1m[35m (1.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOrder Create (1.5ms)[0m  [1m[32mINSERT INTO "orders" ("external_code", "store_id", "sub_total", "delivery_fee", "total", "country", "state", "city", "district", "street", "complement", "latitude", "longitude", "dt_order_create", "postal_code", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18) RETURNING "id"[0m  [["external_code", "9987071"], ["store_id", 282], ["sub_total", "49.90"], ["delivery_fee", "5.14"], ["total", "55.04"], ["country", "BR"], ["state", "SP"], ["city", "Cidade de Testes"], ["district", "Vila de Testes"], ["street", "Rua de Testes Fake"], ["complement", "galpao"], ["latitude", "-23.629037"], ["longitude", "-46.712689"], ["dt_order_create", "2019-06-24T16:45:32.000-04:00"], ["postal_code", "85045020"], ["number", "3454"], ["created_at", "2021-04-28 15:21:29.250691"], ["updated_at", "2021-04-28 15:21:29.250691"]]
+  [1m[36mCustomer Create (1.5ms)[0m  [1m[32mINSERT INTO "customers" ("external_id", "name", "email", "contact", "order_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["external_id", "136226073"], ["name", "JOHN DOE"], ["email", "john@doe.com"], ["contact", "41999999999"], ["order_id", 2], ["created_at", "2021-04-28 15:21:29.254977"], ["updated_at", "2021-04-28 15:21:29.254977"]]
+  [1m[36mItem Create (1.3ms)[0m  [1m[32mINSERT INTO "items" ("external_code", "name", "price", "quantity", "total", "order_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["external_code", "IT4801901403"], ["name", "Produto de Testes"], ["price", 49.9], ["quantity", 1], ["total", 49.9], ["order_id", 2], ["created_at", "2021-04-28 15:21:29.257421"], ["updated_at", "2021-04-28 15:21:29.257421"]]
+  [1m[36mPayment Create (1.4ms)[0m  [1m[32mINSERT INTO "payments" ("modality", "value", "order_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["modality", "CREDIT_CARD"], ["value", 55.04], ["order_id", 2], ["created_at", "2021-04-28 15:21:29.259614"], ["updated_at", "2021-04-28 15:21:29.259614"]]
+  [1m[35m (0.9ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 404 Not Found in 547ms (Views: 0.2ms | ActiveRecord: 7.9ms | Allocations: 21456)
+  [1m[35m (2.8ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.2ms)[0m  [1m[35mBEGIN[0m
+Started POST "/api/v1/orders" for 127.0.0.1 at 2021-04-28 12:21:29 -0300
+Processing by Api::V1::OrdersController#create as HTML
+  Parameters: {"id"=>"9987071", "store_id"=>"282", "date_created"=>"2019-06-24T16:45:32.000-04:00", "date_closed"=>"2019-06-24T16:45:35.000-04:00", "last_updated"=>"2019-06-25T13:26:49.000-04:00", "total_amount"=>"49.9", "total_shipping"=>"5.14", "total_amount_with_shipping"=>"55.04", "paid_amount"=>"55.04", "expiration_date"=>"2019-07-22T16:45:35.000-04:00", "order_items"=>[{"item"=>{"id"=>"IT4801901403", "title"=>"Produto de Testes"}, "quantity"=>"1", "unit_price"=>"49.9", "full_unit_price"=>"49.9"}], "payments"=>[{"id"=>"12312313", "order_id"=>"9987071", "payer_id"=>"414138", "installments"=>"1", "payment_type"=>"credit_card", "status"=>"paid", "transaction_amount"=>"49.9", "taxes_amount"=>"0", "shipping_cost"=>"5.14", "total_paid_amount"=>"55.04", "installment_amount"=>"55.04", "date_approved"=>"2019-06-24T16:45:35.000-04:00", "date_created"=>"2019-06-24T16:45:33.000-04:00"}], "shipping"=>{"id"=>"43444211797", "shipment_type"=>"shipping", "date_created"=>"2019-06-24T16:45:33.000-04:00", "receiver_address"=>{"id"=>"1051695306", "address_line"=>"Rua de Testes Fake 3454", "street_name"=>"Rua de Testes Fake", "street_number"=>"3454", "comment"=>"galpao", "zip_code"=>"85045020", "city"=>{"name"=>"Cidade de Testes"}, "state"=>{"id"=>"SP", "name"=>"São Paulo"}, "country"=>{"id"=>"BR", "name"=>"Brasil"}, "neighborhood"=>{"id"=>nil, "name"=>"Vila de Testes"}, "latitude"=>"-23.629037", "longitude"=>"-46.712689", "receiver_phone"=>"41999999999"}}, "status"=>"paid", "buyer"=>{"id"=>"136226073", "nickname"=>"JOHN DOE", "email"=>"john@doe.com", "phone"=>{"area_code"=>"41", "number"=>"999999999"}, "first_name"=>"John", "last_name"=>"Doe", "billing_info"=>{"doc_type"=>"CPF", "doc_number"=>"09487965477"}}}
+  [1m[35m (1.7ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOrder Create (1.7ms)[0m  [1m[32mINSERT INTO "orders" ("external_code", "store_id", "sub_total", "delivery_fee", "total", "country", "state", "city", "district", "street", "complement", "latitude", "longitude", "dt_order_create", "postal_code", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18) RETURNING "id"[0m  [["external_code", "9987071"], ["store_id", 282], ["sub_total", "49.90"], ["delivery_fee", "5.14"], ["total", "55.04"], ["country", "BR"], ["state", "SP"], ["city", "Cidade de Testes"], ["district", "Vila de Testes"], ["street", "Rua de Testes Fake"], ["complement", "galpao"], ["latitude", "-23.629037"], ["longitude", "-46.712689"], ["dt_order_create", "2019-06-24T16:45:32.000-04:00"], ["postal_code", "85045020"], ["number", "3454"], ["created_at", "2021-04-28 15:21:29.822504"], ["updated_at", "2021-04-28 15:21:29.822504"]]
+  [1m[36mCustomer Create (1.8ms)[0m  [1m[32mINSERT INTO "customers" ("external_id", "name", "email", "contact", "order_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["external_id", "136226073"], ["name", "JOHN DOE"], ["email", "john@doe.com"], ["contact", "41999999999"], ["order_id", 3], ["created_at", "2021-04-28 15:21:29.827405"], ["updated_at", "2021-04-28 15:21:29.827405"]]
+  [1m[36mItem Create (1.6ms)[0m  [1m[32mINSERT INTO "items" ("external_code", "name", "price", "quantity", "total", "order_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["external_code", "IT4801901403"], ["name", "Produto de Testes"], ["price", 49.9], ["quantity", 1], ["total", 49.9], ["order_id", 3], ["created_at", "2021-04-28 15:21:29.830304"], ["updated_at", "2021-04-28 15:21:29.830304"]]
+  [1m[36mPayment Create (2.2ms)[0m  [1m[32mINSERT INTO "payments" ("modality", "value", "order_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["modality", "CREDIT_CARD"], ["value", 55.04], ["order_id", 3], ["created_at", "2021-04-28 15:21:29.832836"], ["updated_at", "2021-04-28 15:21:29.832836"]]
+  [1m[35m (1.9ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 404 Not Found in 498ms (Views: 0.1ms | ActiveRecord: 10.8ms | Allocations: 13008)
+  [1m[35m (2.9ms)[0m  [1m[34mSELECT COUNT(*) FROM "customers"[0m
+  [1m[35m (2.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.6ms)[0m  [1m[35mBEGIN[0m
+Started POST "/api/v1/orders" for 127.0.0.1 at 2021-04-28 12:21:30 -0300
+Processing by Api::V1::OrdersController#create as HTML
+  Parameters: {"id"=>"9987071", "store_id"=>"282", "date_created"=>"2019-06-24T16:45:32.000-04:00", "date_closed"=>"2019-06-24T16:45:35.000-04:00", "last_updated"=>"2019-06-25T13:26:49.000-04:00", "total_amount"=>"49.9", "total_shipping"=>"5.14", "total_amount_with_shipping"=>"55.04", "paid_amount"=>"55.04", "expiration_date"=>"2019-07-22T16:45:35.000-04:00", "order_items"=>[{"item"=>{"id"=>"IT4801901403", "title"=>"Produto de Testes"}, "quantity"=>"1", "unit_price"=>"49.9", "full_unit_price"=>"49.9"}], "payments"=>[{"id"=>"12312313", "order_id"=>"9987071", "payer_id"=>"414138", "installments"=>"1", "payment_type"=>"credit_card", "status"=>"paid", "transaction_amount"=>"49.9", "taxes_amount"=>"0", "shipping_cost"=>"5.14", "total_paid_amount"=>"55.04", "installment_amount"=>"55.04", "date_approved"=>"2019-06-24T16:45:35.000-04:00", "date_created"=>"2019-06-24T16:45:33.000-04:00"}], "shipping"=>{"id"=>"43444211797", "shipment_type"=>"shipping", "date_created"=>"2019-06-24T16:45:33.000-04:00", "receiver_address"=>{"id"=>"1051695306", "address_line"=>"Rua de Testes Fake 3454", "street_name"=>"Rua de Testes Fake", "street_number"=>"3454", "comment"=>"galpao", "zip_code"=>"85045020", "city"=>{"name"=>"Cidade de Testes"}, "state"=>{"id"=>"SP", "name"=>"São Paulo"}, "country"=>{"id"=>"BR", "name"=>"Brasil"}, "neighborhood"=>{"id"=>nil, "name"=>"Vila de Testes"}, "latitude"=>"-23.629037", "longitude"=>"-46.712689", "receiver_phone"=>"41999999999"}}, "status"=>"paid", "buyer"=>{"id"=>"136226073", "nickname"=>"JOHN DOE", "email"=>"john@doe.com", "phone"=>{"area_code"=>"41", "number"=>"999999999"}, "first_name"=>"John", "last_name"=>"Doe", "billing_info"=>{"doc_type"=>"CPF", "doc_number"=>"09487965477"}}}
+  [1m[35m (1.5ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOrder Create (1.5ms)[0m  [1m[32mINSERT INTO "orders" ("external_code", "store_id", "sub_total", "delivery_fee", "total", "country", "state", "city", "district", "street", "complement", "latitude", "longitude", "dt_order_create", "postal_code", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18) RETURNING "id"[0m  [["external_code", "9987071"], ["store_id", 282], ["sub_total", "49.90"], ["delivery_fee", "5.14"], ["total", "55.04"], ["country", "BR"], ["state", "SP"], ["city", "Cidade de Testes"], ["district", "Vila de Testes"], ["street", "Rua de Testes Fake"], ["complement", "galpao"], ["latitude", "-23.629037"], ["longitude", "-46.712689"], ["dt_order_create", "2019-06-24T16:45:32.000-04:00"], ["postal_code", "85045020"], ["number", "3454"], ["created_at", "2021-04-28 15:21:30.346611"], ["updated_at", "2021-04-28 15:21:30.346611"]]
+  [1m[36mCustomer Create (2.4ms)[0m  [1m[32mINSERT INTO "customers" ("external_id", "name", "email", "contact", "order_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["external_id", "136226073"], ["name", "JOHN DOE"], ["email", "john@doe.com"], ["contact", "41999999999"], ["order_id", 4], ["created_at", "2021-04-28 15:21:30.359132"], ["updated_at", "2021-04-28 15:21:30.359132"]]
+  [1m[36mItem Create (2.1ms)[0m  [1m[32mINSERT INTO "items" ("external_code", "name", "price", "quantity", "total", "order_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["external_code", "IT4801901403"], ["name", "Produto de Testes"], ["price", 49.9], ["quantity", 1], ["total", 49.9], ["order_id", 4], ["created_at", "2021-04-28 15:21:30.363302"], ["updated_at", "2021-04-28 15:21:30.363302"]]
+  [1m[36mPayment Create (1.5ms)[0m  [1m[32mINSERT INTO "payments" ("modality", "value", "order_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["modality", "CREDIT_CARD"], ["value", 55.04], ["order_id", 4], ["created_at", "2021-04-28 15:21:30.368404"], ["updated_at", "2021-04-28 15:21:30.368404"]]
+  [1m[35m (1.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 404 Not Found in 539ms (Views: 0.2ms | ActiveRecord: 10.1ms | Allocations: 13024)
+  [1m[35m (4.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "items"[0m
+  [1m[35m (5.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (2.8ms)[0m  [1m[35mBEGIN[0m
+Started POST "/api/v1/orders" for 127.0.0.1 at 2021-04-28 12:21:30 -0300
+Processing by Api::V1::OrdersController#create as HTML
+  Parameters: {"id"=>"9987071", "store_id"=>"282", "date_created"=>"2019-06-24T16:45:32.000-04:00", "date_closed"=>"2019-06-24T16:45:35.000-04:00", "last_updated"=>"2019-06-25T13:26:49.000-04:00", "total_amount"=>"49.9", "total_shipping"=>"5.14", "total_amount_with_shipping"=>"55.04", "paid_amount"=>"55.04", "expiration_date"=>"2019-07-22T16:45:35.000-04:00", "order_items"=>[{"item"=>{"id"=>"IT4801901403", "title"=>"Produto de Testes"}, "quantity"=>"1", "unit_price"=>"49.9", "full_unit_price"=>"49.9"}], "payments"=>[{"id"=>"12312313", "order_id"=>"9987071", "payer_id"=>"414138", "installments"=>"1", "payment_type"=>"credit_card", "status"=>"paid", "transaction_amount"=>"49.9", "taxes_amount"=>"0", "shipping_cost"=>"5.14", "total_paid_amount"=>"55.04", "installment_amount"=>"55.04", "date_approved"=>"2019-06-24T16:45:35.000-04:00", "date_created"=>"2019-06-24T16:45:33.000-04:00"}], "shipping"=>{"id"=>"43444211797", "shipment_type"=>"shipping", "date_created"=>"2019-06-24T16:45:33.000-04:00", "receiver_address"=>{"id"=>"1051695306", "address_line"=>"Rua de Testes Fake 3454", "street_name"=>"Rua de Testes Fake", "street_number"=>"3454", "comment"=>"galpao", "zip_code"=>"85045020", "city"=>{"name"=>"Cidade de Testes"}, "state"=>{"id"=>"SP", "name"=>"São Paulo"}, "country"=>{"id"=>"BR", "name"=>"Brasil"}, "neighborhood"=>{"id"=>nil, "name"=>"Vila de Testes"}, "latitude"=>"-23.629037", "longitude"=>"-46.712689", "receiver_phone"=>"41999999999"}}, "status"=>"paid", "buyer"=>{"id"=>"136226073", "nickname"=>"JOHN DOE", "email"=>"john@doe.com", "phone"=>{"area_code"=>"41", "number"=>"999999999"}, "first_name"=>"John", "last_name"=>"Doe", "billing_info"=>{"doc_type"=>"CPF", "doc_number"=>"09487965477"}}}
+  [1m[35m (2.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOrder Create (1.7ms)[0m  [1m[32mINSERT INTO "orders" ("external_code", "store_id", "sub_total", "delivery_fee", "total", "country", "state", "city", "district", "street", "complement", "latitude", "longitude", "dt_order_create", "postal_code", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18) RETURNING "id"[0m  [["external_code", "9987071"], ["store_id", 282], ["sub_total", "49.90"], ["delivery_fee", "5.14"], ["total", "55.04"], ["country", "BR"], ["state", "SP"], ["city", "Cidade de Testes"], ["district", "Vila de Testes"], ["street", "Rua de Testes Fake"], ["complement", "galpao"], ["latitude", "-23.629037"], ["longitude", "-46.712689"], ["dt_order_create", "2019-06-24T16:45:32.000-04:00"], ["postal_code", "85045020"], ["number", "3454"], ["created_at", "2021-04-28 15:21:30.911850"], ["updated_at", "2021-04-28 15:21:30.911850"]]
+  [1m[36mCustomer Create (1.8ms)[0m  [1m[32mINSERT INTO "customers" ("external_id", "name", "email", "contact", "order_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["external_id", "136226073"], ["name", "JOHN DOE"], ["email", "john@doe.com"], ["contact", "41999999999"], ["order_id", 5], ["created_at", "2021-04-28 15:21:30.917643"], ["updated_at", "2021-04-28 15:21:30.917643"]]
+  [1m[36mItem Create (1.8ms)[0m  [1m[32mINSERT INTO "items" ("external_code", "name", "price", "quantity", "total", "order_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["external_code", "IT4801901403"], ["name", "Produto de Testes"], ["price", 49.9], ["quantity", 1], ["total", 49.9], ["order_id", 5], ["created_at", "2021-04-28 15:21:30.920527"], ["updated_at", "2021-04-28 15:21:30.920527"]]
+  [1m[36mPayment Create (1.9ms)[0m  [1m[32mINSERT INTO "payments" ("modality", "value", "order_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["modality", "CREDIT_CARD"], ["value", 55.04], ["order_id", 5], ["created_at", "2021-04-28 15:21:30.923540"], ["updated_at", "2021-04-28 15:21:30.923540"]]
+  [1m[35m (1.4ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 404 Not Found in 560ms (Views: 0.3ms | ActiveRecord: 11.0ms | Allocations: 13014)
+  [1m[35m (3.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "payments"[0m
+  [1m[35m (2.5ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.8ms)[0m  [1m[35mBEGIN[0m
+Started POST "/api/v1/orders" for 127.0.0.1 at 2021-04-28 12:21:31 -0300
+Processing by Api::V1::OrdersController#create as HTML
+  Parameters: {"id"=>"9987071", "store_id"=>"282", "date_created"=>"2019-06-24T16:45:32.000-04:00", "date_closed"=>"2019-06-24T16:45:35.000-04:00", "last_updated"=>"2019-06-25T13:26:49.000-04:00", "total_amount"=>"49.9", "total_shipping"=>"5.14", "total_amount_with_shipping"=>"55.04", "paid_amount"=>"55.04", "expiration_date"=>"2019-07-22T16:45:35.000-04:00", "order_items"=>[{"item"=>{"id"=>"IT4801901403", "title"=>"Produto de Testes"}, "quantity"=>"1", "unit_price"=>"49.9", "full_unit_price"=>"49.9"}], "payments"=>[{"id"=>"12312313", "order_id"=>"9987071", "payer_id"=>"414138", "installments"=>"1", "payment_type"=>"credit_card", "status"=>"paid", "transaction_amount"=>"49.9", "taxes_amount"=>"0", "shipping_cost"=>"5.14", "total_paid_amount"=>"55.04", "installment_amount"=>"55.04", "date_approved"=>"2019-06-24T16:45:35.000-04:00", "date_created"=>"2019-06-24T16:45:33.000-04:00"}], "shipping"=>{"id"=>"43444211797", "shipment_type"=>"shipping", "date_created"=>"2019-06-24T16:45:33.000-04:00", "receiver_address"=>{"id"=>"1051695306", "address_line"=>"Rua de Testes Fake 3454", "street_name"=>"Rua de Testes Fake", "street_number"=>"3454", "comment"=>"galpao", "zip_code"=>"85045020", "city"=>{"name"=>"Cidade de Testes"}, "state"=>{"id"=>"SP", "name"=>"São Paulo"}, "country"=>{"id"=>"BR", "name"=>"Brasil"}, "neighborhood"=>{"id"=>nil, "name"=>"Vila de Testes"}, "latitude"=>"-23.629037", "longitude"=>"-46.712689", "receiver_phone"=>"41999999999"}}, "status"=>"paid", "buyer"=>{"id"=>"136226073", "nickname"=>"JOHN DOE", "email"=>"john@doe.com", "phone"=>{"area_code"=>"41", "number"=>"999999999"}, "first_name"=>"John", "last_name"=>"Doe", "billing_info"=>{"doc_type"=>"CPF", "doc_number"=>"09487965477"}}}
+  [1m[35m (2.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOrder Create (2.2ms)[0m  [1m[32mINSERT INTO "orders" ("external_code", "store_id", "sub_total", "delivery_fee", "total", "country", "state", "city", "district", "street", "complement", "latitude", "longitude", "dt_order_create", "postal_code", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18) RETURNING "id"[0m  [["external_code", "9987071"], ["store_id", 282], ["sub_total", "49.90"], ["delivery_fee", "5.14"], ["total", "55.04"], ["country", "BR"], ["state", "SP"], ["city", "Cidade de Testes"], ["district", "Vila de Testes"], ["street", "Rua de Testes Fake"], ["complement", "galpao"], ["latitude", "-23.629037"], ["longitude", "-46.712689"], ["dt_order_create", "2019-06-24T16:45:32.000-04:00"], ["postal_code", "85045020"], ["number", "3454"], ["created_at", "2021-04-28 15:21:31.496615"], ["updated_at", "2021-04-28 15:21:31.496615"]]
+  [1m[36mCustomer Create (2.7ms)[0m  [1m[32mINSERT INTO "customers" ("external_id", "name", "email", "contact", "order_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["external_id", "136226073"], ["name", "JOHN DOE"], ["email", "john@doe.com"], ["contact", "41999999999"], ["order_id", 6], ["created_at", "2021-04-28 15:21:31.502871"], ["updated_at", "2021-04-28 15:21:31.502871"]]
+  [1m[36mItem Create (1.8ms)[0m  [1m[32mINSERT INTO "items" ("external_code", "name", "price", "quantity", "total", "order_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["external_code", "IT4801901403"], ["name", "Produto de Testes"], ["price", 49.9], ["quantity", 1], ["total", 49.9], ["order_id", 6], ["created_at", "2021-04-28 15:21:31.506696"], ["updated_at", "2021-04-28 15:21:31.506696"]]
+  [1m[36mPayment Create (1.5ms)[0m  [1m[32mINSERT INTO "payments" ("modality", "value", "order_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["modality", "CREDIT_CARD"], ["value", 55.04], ["order_id", 6], ["created_at", "2021-04-28 15:21:31.509595"], ["updated_at", "2021-04-28 15:21:31.509595"]]
+  [1m[35m (1.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 404 Not Found in 512ms (Views: 0.6ms | ActiveRecord: 11.3ms | Allocations: 13018)
+  [1m[35m (3.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "orders"[0m
+  [1m[35m (2.9ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (2.1ms)[0m  [1m[35mBEGIN[0m
+Started POST "/api/v1/orders" for 127.0.0.1 at 2021-04-28 12:21:32 -0300
+Processing by Api::V1::OrdersController#create as HTML
+  Parameters: {"id"=>"9987071", "store_id"=>"282", "date_created"=>"2019-06-24T16:45:32.000-04:00", "date_closed"=>"2019-06-24T16:45:35.000-04:00", "last_updated"=>"2019-06-25T13:26:49.000-04:00", "total_amount"=>"49.9", "total_shipping"=>"5.14", "total_amount_with_shipping"=>"55.04", "paid_amount"=>"55.04", "expiration_date"=>"2019-07-22T16:45:35.000-04:00", "order_items"=>[{"item"=>{"id"=>"IT4801901403", "title"=>"Produto de Testes"}, "quantity"=>"1", "unit_price"=>"49.9", "full_unit_price"=>"49.9"}], "payments"=>[{"id"=>"12312313", "order_id"=>"9987071", "payer_id"=>"414138", "installments"=>"1", "payment_type"=>"credit_card", "status"=>"paid", "transaction_amount"=>"49.9", "taxes_amount"=>"0", "shipping_cost"=>"5.14", "total_paid_amount"=>"55.04", "installment_amount"=>"55.04", "date_approved"=>"2019-06-24T16:45:35.000-04:00", "date_created"=>"2019-06-24T16:45:33.000-04:00"}], "shipping"=>{"id"=>"43444211797", "shipment_type"=>"shipping", "date_created"=>"2019-06-24T16:45:33.000-04:00", "receiver_address"=>{"id"=>"1051695306", "address_line"=>"Rua de Testes Fake 3454", "street_name"=>"Rua de Testes Fake", "street_number"=>"3454", "comment"=>"galpao", "zip_code"=>"85045020", "city"=>{"name"=>"Cidade de Testes"}, "state"=>{"id"=>"SP", "name"=>"São Paulo"}, "country"=>{"id"=>"BR", "name"=>"Brasil"}, "neighborhood"=>{"id"=>nil, "name"=>"Vila de Testes"}, "latitude"=>"-23.629037", "longitude"=>"-46.712689", "receiver_phone"=>"41999999999"}}, "status"=>"paid", "buyer"=>{"id"=>"136226073", "nickname"=>"JOHN DOE", "email"=>"john@doe.com", "phone"=>{"area_code"=>"41", "number"=>"999999999"}, "first_name"=>"John", "last_name"=>"Doe", "billing_info"=>{"doc_type"=>"CPF", "doc_number"=>"09487965477"}}}
+  [1m[35m (1.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOrder Create (2.1ms)[0m  [1m[32mINSERT INTO "orders" ("external_code", "store_id", "sub_total", "delivery_fee", "total", "country", "state", "city", "district", "street", "complement", "latitude", "longitude", "dt_order_create", "postal_code", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18) RETURNING "id"[0m  [["external_code", "9987071"], ["store_id", 282], ["sub_total", "49.90"], ["delivery_fee", "5.14"], ["total", "55.04"], ["country", "BR"], ["state", "SP"], ["city", "Cidade de Testes"], ["district", "Vila de Testes"], ["street", "Rua de Testes Fake"], ["complement", "galpao"], ["latitude", "-23.629037"], ["longitude", "-46.712689"], ["dt_order_create", "2019-06-24T16:45:32.000-04:00"], ["postal_code", "85045020"], ["number", "3454"], ["created_at", "2021-04-28 15:21:32.031523"], ["updated_at", "2021-04-28 15:21:32.031523"]]
+  [1m[36mCustomer Create (1.5ms)[0m  [1m[32mINSERT INTO "customers" ("external_id", "name", "email", "contact", "order_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["external_id", "136226073"], ["name", "JOHN DOE"], ["email", "john@doe.com"], ["contact", "41999999999"], ["order_id", 7], ["created_at", "2021-04-28 15:21:32.036543"], ["updated_at", "2021-04-28 15:21:32.036543"]]
+  [1m[36mItem Create (1.3ms)[0m  [1m[32mINSERT INTO "items" ("external_code", "name", "price", "quantity", "total", "order_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["external_code", "IT4801901403"], ["name", "Produto de Testes"], ["price", 49.9], ["quantity", 1], ["total", 49.9], ["order_id", 7], ["created_at", "2021-04-28 15:21:32.038955"], ["updated_at", "2021-04-28 15:21:32.038955"]]
+  [1m[36mPayment Create (1.4ms)[0m  [1m[32mINSERT INTO "payments" ("modality", "value", "order_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["modality", "CREDIT_CARD"], ["value", 55.04], ["order_id", 7], ["created_at", "2021-04-28 15:21:32.041113"], ["updated_at", "2021-04-28 15:21:32.041113"]]
+  [1m[35m (1.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 404 Not Found in 23ms (Views: 0.1ms | ActiveRecord: 8.8ms | Allocations: 12742)
+  [1m[35m (1.5ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.5ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (2.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.5ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (2.7ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (2.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (4.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.8ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (2.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (2.6ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (3.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.3ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "schema_sha1"]]
+  [1m[35m (3.7ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (3.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (2.5ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.6ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.6ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (2.6ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.0ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (2.6ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.7ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.0ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.8ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (4.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (2.0ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.7ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (2.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.0ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.8ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.8ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (2.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (2.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.6ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (2.6ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.8ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.6ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (2.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "schema_sha1"]]
+  [1m[35m (1.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (3.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.5ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.5ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.7ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (2.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.6ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.8ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.5ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.5ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (2.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (4.8ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (5.8ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (2.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (2.0ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (2.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.8ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.7ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.6ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.5ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.5ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (2.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.9ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.0ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.5ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.8ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (2.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.0ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.8ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (2.0ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "schema_sha1"]]
+  [1m[35m (2.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (2.6ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.6ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.5ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.7ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.8ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (2.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.9ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (2.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (2.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.6ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.4ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.6ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.6ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.8ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.6ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.7ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.8ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.7ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.8ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.9ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.0ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.6ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.9ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.7ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.0ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.0ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.0ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.9ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (2.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.0ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.5ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (2.0ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = $1[0m  [["key", "schema_sha1"]]
+  [1m[35m (2.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (1.8ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (3.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.0ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.5ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.5ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.6ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.3ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.2ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.6ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.0ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.0ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.0ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.8ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.1ms)[0m  [1m[35mBEGIN[0m
+Started POST "/api/v1/orders" for 127.0.0.1 at 2021-04-28 12:26:51 -0300
+Processing by Api::V1::OrdersController#create as HTML
+  Parameters: {"id"=>"9987071", "store_id"=>"282", "date_created"=>"2019-06-24T16:45:32.000-04:00", "date_closed"=>"2019-06-24T16:45:35.000-04:00", "last_updated"=>"2019-06-25T13:26:49.000-04:00", "total_amount"=>"49.9", "total_shipping"=>"5.14", "total_amount_with_shipping"=>"55.04", "paid_amount"=>"55.04", "expiration_date"=>"2019-07-22T16:45:35.000-04:00", "order_items"=>[{"item"=>{"id"=>"IT4801901403", "title"=>"Produto de Testes"}, "quantity"=>"1", "unit_price"=>"49.9", "full_unit_price"=>"49.9"}], "payments"=>[{"id"=>"12312313", "order_id"=>"9987071", "payer_id"=>"414138", "installments"=>"1", "payment_type"=>"credit_card", "status"=>"paid", "transaction_amount"=>"49.9", "taxes_amount"=>"0", "shipping_cost"=>"5.14", "total_paid_amount"=>"55.04", "installment_amount"=>"55.04", "date_approved"=>"2019-06-24T16:45:35.000-04:00", "date_created"=>"2019-06-24T16:45:33.000-04:00"}], "shipping"=>{"id"=>"43444211797", "shipment_type"=>"shipping", "date_created"=>"2019-06-24T16:45:33.000-04:00", "receiver_address"=>{"id"=>"1051695306", "address_line"=>"Rua de Testes Fake 3454", "street_name"=>"Rua de Testes Fake", "street_number"=>"3454", "comment"=>"galpao", "zip_code"=>"85045020", "city"=>{"name"=>"Cidade de Testes"}, "state"=>{"id"=>"SP", "name"=>"São Paulo"}, "country"=>{"id"=>"BR", "name"=>"Brasil"}, "neighborhood"=>{"id"=>nil, "name"=>"Vila de Testes"}, "latitude"=>"-23.629037", "longitude"=>"-46.712689", "receiver_phone"=>"41999999999"}}, "status"=>"paid", "buyer"=>{"id"=>"136226073", "nickname"=>"JOHN DOE", "email"=>"john@doe.com", "phone"=>{"area_code"=>"41", "number"=>"999999999"}, "first_name"=>"John", "last_name"=>"Doe", "billing_info"=>{"doc_type"=>"CPF", "doc_number"=>"09487965477"}}}
+  [1m[35m (1.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOrder Create (1.5ms)[0m  [1m[32mINSERT INTO "orders" ("external_code", "store_id", "sub_total", "delivery_fee", "total", "country", "state", "city", "district", "street", "complement", "latitude", "longitude", "dt_order_create", "postal_code", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18) RETURNING "id"[0m  [["external_code", "9987071"], ["store_id", 282], ["sub_total", "49.90"], ["delivery_fee", "5.14"], ["total", "55.04"], ["country", "BR"], ["state", "SP"], ["city", "Cidade de Testes"], ["district", "Vila de Testes"], ["street", "Rua de Testes Fake"], ["complement", "galpao"], ["latitude", "-23.629037"], ["longitude", "-46.712689"], ["dt_order_create", "2019-06-24T16:45:32.000-04:00"], ["postal_code", "85045020"], ["number", "3454"], ["created_at", "2021-04-28 15:26:51.266407"], ["updated_at", "2021-04-28 15:26:51.266407"]]
+  [1m[36mCustomer Create (1.6ms)[0m  [1m[32mINSERT INTO "customers" ("external_id", "name", "email", "contact", "order_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["external_id", "136226073"], ["name", "JOHN DOE"], ["email", "john@doe.com"], ["contact", "41999999999"], ["order_id", 8], ["created_at", "2021-04-28 15:26:51.270668"], ["updated_at", "2021-04-28 15:26:51.270668"]]
+  [1m[36mItem Create (1.4ms)[0m  [1m[32mINSERT INTO "items" ("external_code", "name", "price", "quantity", "total", "order_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["external_code", "IT4801901403"], ["name", "Produto de Testes"], ["price", 49.9], ["quantity", 1], ["total", 49.9], ["order_id", 8], ["created_at", "2021-04-28 15:26:51.273156"], ["updated_at", "2021-04-28 15:26:51.273156"]]
+  [1m[36mPayment Create (1.4ms)[0m  [1m[32mINSERT INTO "payments" ("modality", "value", "order_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["modality", "CREDIT_CARD"], ["value", 55.04], ["order_id", 8], ["created_at", "2021-04-28 15:26:51.275501"], ["updated_at", "2021-04-28 15:26:51.275501"]]
+  [1m[35m (1.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 202 Accepted in 6963ms (Views: 0.6ms | ActiveRecord: 13.5ms | Allocations: 27067)
+  [1m[35m (4.0ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (2.8ms)[0m  [1m[35mBEGIN[0m
+Started POST "/api/v1/orders" for 127.0.0.1 at 2021-04-28 12:26:58 -0300
+Processing by Api::V1::OrdersController#create as HTML
+  Parameters: {"id"=>"9987071", "store_id"=>"282", "date_created"=>"2019-06-24T16:45:32.000-04:00", "date_closed"=>"2019-06-24T16:45:35.000-04:00", "last_updated"=>"2019-06-25T13:26:49.000-04:00", "total_amount"=>"49.9", "total_shipping"=>"5.14", "total_amount_with_shipping"=>"55.04", "paid_amount"=>"55.04", "expiration_date"=>"2019-07-22T16:45:35.000-04:00", "order_items"=>[{"item"=>{"id"=>"IT4801901403", "title"=>"Produto de Testes"}, "quantity"=>"1", "unit_price"=>"49.9", "full_unit_price"=>"49.9"}], "payments"=>[{"id"=>"12312313", "order_id"=>"9987071", "payer_id"=>"414138", "installments"=>"1", "payment_type"=>"credit_card", "status"=>"paid", "transaction_amount"=>"49.9", "taxes_amount"=>"0", "shipping_cost"=>"5.14", "total_paid_amount"=>"55.04", "installment_amount"=>"55.04", "date_approved"=>"2019-06-24T16:45:35.000-04:00", "date_created"=>"2019-06-24T16:45:33.000-04:00"}], "shipping"=>{"id"=>"43444211797", "shipment_type"=>"shipping", "date_created"=>"2019-06-24T16:45:33.000-04:00", "receiver_address"=>{"id"=>"1051695306", "address_line"=>"Rua de Testes Fake 3454", "street_name"=>"Rua de Testes Fake", "street_number"=>"3454", "comment"=>"galpao", "zip_code"=>"85045020", "city"=>{"name"=>"Cidade de Testes"}, "state"=>{"id"=>"SP", "name"=>"São Paulo"}, "country"=>{"id"=>"BR", "name"=>"Brasil"}, "neighborhood"=>{"id"=>nil, "name"=>"Vila de Testes"}, "latitude"=>"-23.629037", "longitude"=>"-46.712689", "receiver_phone"=>"41999999999"}}, "status"=>"paid", "buyer"=>{"id"=>"136226073", "nickname"=>"JOHN DOE", "email"=>"john@doe.com", "phone"=>{"area_code"=>"41", "number"=>"999999999"}, "first_name"=>"John", "last_name"=>"Doe", "billing_info"=>{"doc_type"=>"CPF", "doc_number"=>"09487965477"}}}
+  [1m[35m (1.8ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOrder Create (1.8ms)[0m  [1m[32mINSERT INTO "orders" ("external_code", "store_id", "sub_total", "delivery_fee", "total", "country", "state", "city", "district", "street", "complement", "latitude", "longitude", "dt_order_create", "postal_code", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18) RETURNING "id"[0m  [["external_code", "9987071"], ["store_id", 282], ["sub_total", "49.90"], ["delivery_fee", "5.14"], ["total", "55.04"], ["country", "BR"], ["state", "SP"], ["city", "Cidade de Testes"], ["district", "Vila de Testes"], ["street", "Rua de Testes Fake"], ["complement", "galpao"], ["latitude", "-23.629037"], ["longitude", "-46.712689"], ["dt_order_create", "2019-06-24T16:45:32.000-04:00"], ["postal_code", "85045020"], ["number", "3454"], ["created_at", "2021-04-28 15:26:58.232684"], ["updated_at", "2021-04-28 15:26:58.232684"]]
+  [1m[36mCustomer Create (1.8ms)[0m  [1m[32mINSERT INTO "customers" ("external_id", "name", "email", "contact", "order_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["external_id", "136226073"], ["name", "JOHN DOE"], ["email", "john@doe.com"], ["contact", "41999999999"], ["order_id", 9], ["created_at", "2021-04-28 15:26:58.238175"], ["updated_at", "2021-04-28 15:26:58.238175"]]
+  [1m[36mItem Create (2.1ms)[0m  [1m[32mINSERT INTO "items" ("external_code", "name", "price", "quantity", "total", "order_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["external_code", "IT4801901403"], ["name", "Produto de Testes"], ["price", 49.9], ["quantity", 1], ["total", 49.9], ["order_id", 9], ["created_at", "2021-04-28 15:26:58.241120"], ["updated_at", "2021-04-28 15:26:58.241120"]]
+  [1m[36mPayment Create (1.5ms)[0m  [1m[32mINSERT INTO "payments" ("modality", "value", "order_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["modality", "CREDIT_CARD"], ["value", 55.04], ["order_id", 9], ["created_at", "2021-04-28 15:26:58.244277"], ["updated_at", "2021-04-28 15:26:58.244277"]]
+  [1m[35m (1.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 202 Accepted in 709ms (Views: 0.2ms | ActiveRecord: 10.3ms | Allocations: 13116)
+  [1m[35m (2.7ms)[0m  [1m[34mSELECT COUNT(*) FROM "customers"[0m
+  [1m[35m (1.8ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.9ms)[0m  [1m[35mBEGIN[0m
+Started POST "/api/v1/orders" for 127.0.0.1 at 2021-04-28 12:26:58 -0300
+Processing by Api::V1::OrdersController#create as HTML
+  Parameters: {"id"=>"9987071", "store_id"=>"282", "date_created"=>"2019-06-24T16:45:32.000-04:00", "date_closed"=>"2019-06-24T16:45:35.000-04:00", "last_updated"=>"2019-06-25T13:26:49.000-04:00", "total_amount"=>"49.9", "total_shipping"=>"5.14", "total_amount_with_shipping"=>"55.04", "paid_amount"=>"55.04", "expiration_date"=>"2019-07-22T16:45:35.000-04:00", "order_items"=>[{"item"=>{"id"=>"IT4801901403", "title"=>"Produto de Testes"}, "quantity"=>"1", "unit_price"=>"49.9", "full_unit_price"=>"49.9"}], "payments"=>[{"id"=>"12312313", "order_id"=>"9987071", "payer_id"=>"414138", "installments"=>"1", "payment_type"=>"credit_card", "status"=>"paid", "transaction_amount"=>"49.9", "taxes_amount"=>"0", "shipping_cost"=>"5.14", "total_paid_amount"=>"55.04", "installment_amount"=>"55.04", "date_approved"=>"2019-06-24T16:45:35.000-04:00", "date_created"=>"2019-06-24T16:45:33.000-04:00"}], "shipping"=>{"id"=>"43444211797", "shipment_type"=>"shipping", "date_created"=>"2019-06-24T16:45:33.000-04:00", "receiver_address"=>{"id"=>"1051695306", "address_line"=>"Rua de Testes Fake 3454", "street_name"=>"Rua de Testes Fake", "street_number"=>"3454", "comment"=>"galpao", "zip_code"=>"85045020", "city"=>{"name"=>"Cidade de Testes"}, "state"=>{"id"=>"SP", "name"=>"São Paulo"}, "country"=>{"id"=>"BR", "name"=>"Brasil"}, "neighborhood"=>{"id"=>nil, "name"=>"Vila de Testes"}, "latitude"=>"-23.629037", "longitude"=>"-46.712689", "receiver_phone"=>"41999999999"}}, "status"=>"paid", "buyer"=>{"id"=>"136226073", "nickname"=>"JOHN DOE", "email"=>"john@doe.com", "phone"=>{"area_code"=>"41", "number"=>"999999999"}, "first_name"=>"John", "last_name"=>"Doe", "billing_info"=>{"doc_type"=>"CPF", "doc_number"=>"09487965477"}}}
+  [1m[35m (1.7ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOrder Create (1.9ms)[0m  [1m[32mINSERT INTO "orders" ("external_code", "store_id", "sub_total", "delivery_fee", "total", "country", "state", "city", "district", "street", "complement", "latitude", "longitude", "dt_order_create", "postal_code", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18) RETURNING "id"[0m  [["external_code", "9987071"], ["store_id", 282], ["sub_total", "49.90"], ["delivery_fee", "5.14"], ["total", "55.04"], ["country", "BR"], ["state", "SP"], ["city", "Cidade de Testes"], ["district", "Vila de Testes"], ["street", "Rua de Testes Fake"], ["complement", "galpao"], ["latitude", "-23.629037"], ["longitude", "-46.712689"], ["dt_order_create", "2019-06-24T16:45:32.000-04:00"], ["postal_code", "85045020"], ["number", "3454"], ["created_at", "2021-04-28 15:26:58.958220"], ["updated_at", "2021-04-28 15:26:58.958220"]]
+  [1m[36mCustomer Create (1.6ms)[0m  [1m[32mINSERT INTO "customers" ("external_id", "name", "email", "contact", "order_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["external_id", "136226073"], ["name", "JOHN DOE"], ["email", "john@doe.com"], ["contact", "41999999999"], ["order_id", 10], ["created_at", "2021-04-28 15:26:58.963576"], ["updated_at", "2021-04-28 15:26:58.963576"]]
+  [1m[36mItem Create (1.4ms)[0m  [1m[32mINSERT INTO "items" ("external_code", "name", "price", "quantity", "total", "order_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["external_code", "IT4801901403"], ["name", "Produto de Testes"], ["price", 49.9], ["quantity", 1], ["total", 49.9], ["order_id", 10], ["created_at", "2021-04-28 15:26:58.966138"], ["updated_at", "2021-04-28 15:26:58.966138"]]
+  [1m[36mPayment Create (1.7ms)[0m  [1m[32mINSERT INTO "payments" ("modality", "value", "order_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["modality", "CREDIT_CARD"], ["value", 55.04], ["order_id", 10], ["created_at", "2021-04-28 15:26:58.968699"], ["updated_at", "2021-04-28 15:26:58.968699"]]
+  [1m[35m (1.3ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 202 Accepted in 649ms (Views: 0.2ms | ActiveRecord: 9.7ms | Allocations: 13116)
+  [1m[35m (3.6ms)[0m  [1m[34mSELECT COUNT(*) FROM "payments"[0m
+  [1m[35m (2.5ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (2.6ms)[0m  [1m[35mBEGIN[0m
+Started POST "/api/v1/orders" for 127.0.0.1 at 2021-04-28 12:26:59 -0300
+Processing by Api::V1::OrdersController#create as HTML
+  Parameters: {"id"=>"9987071", "store_id"=>"282", "date_created"=>"2019-06-24T16:45:32.000-04:00", "date_closed"=>"2019-06-24T16:45:35.000-04:00", "last_updated"=>"2019-06-25T13:26:49.000-04:00", "total_amount"=>"49.9", "total_shipping"=>"5.14", "total_amount_with_shipping"=>"55.04", "paid_amount"=>"55.04", "expiration_date"=>"2019-07-22T16:45:35.000-04:00", "order_items"=>[{"item"=>{"id"=>"IT4801901403", "title"=>"Produto de Testes"}, "quantity"=>"1", "unit_price"=>"49.9", "full_unit_price"=>"49.9"}], "payments"=>[{"id"=>"12312313", "order_id"=>"9987071", "payer_id"=>"414138", "installments"=>"1", "payment_type"=>"credit_card", "status"=>"paid", "transaction_amount"=>"49.9", "taxes_amount"=>"0", "shipping_cost"=>"5.14", "total_paid_amount"=>"55.04", "installment_amount"=>"55.04", "date_approved"=>"2019-06-24T16:45:35.000-04:00", "date_created"=>"2019-06-24T16:45:33.000-04:00"}], "shipping"=>{"id"=>"43444211797", "shipment_type"=>"shipping", "date_created"=>"2019-06-24T16:45:33.000-04:00", "receiver_address"=>{"id"=>"1051695306", "address_line"=>"Rua de Testes Fake 3454", "street_name"=>"Rua de Testes Fake", "street_number"=>"3454", "comment"=>"galpao", "zip_code"=>"85045020", "city"=>{"name"=>"Cidade de Testes"}, "state"=>{"id"=>"SP", "name"=>"São Paulo"}, "country"=>{"id"=>"BR", "name"=>"Brasil"}, "neighborhood"=>{"id"=>nil, "name"=>"Vila de Testes"}, "latitude"=>"-23.629037", "longitude"=>"-46.712689", "receiver_phone"=>"41999999999"}}, "status"=>"paid", "buyer"=>{"id"=>"136226073", "nickname"=>"JOHN DOE", "email"=>"john@doe.com", "phone"=>{"area_code"=>"41", "number"=>"999999999"}, "first_name"=>"John", "last_name"=>"Doe", "billing_info"=>{"doc_type"=>"CPF", "doc_number"=>"09487965477"}}}
+  [1m[35m (2.8ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOrder Create (2.0ms)[0m  [1m[32mINSERT INTO "orders" ("external_code", "store_id", "sub_total", "delivery_fee", "total", "country", "state", "city", "district", "street", "complement", "latitude", "longitude", "dt_order_create", "postal_code", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18) RETURNING "id"[0m  [["external_code", "9987071"], ["store_id", 282], ["sub_total", "49.90"], ["delivery_fee", "5.14"], ["total", "55.04"], ["country", "BR"], ["state", "SP"], ["city", "Cidade de Testes"], ["district", "Vila de Testes"], ["street", "Rua de Testes Fake"], ["complement", "galpao"], ["latitude", "-23.629037"], ["longitude", "-46.712689"], ["dt_order_create", "2019-06-24T16:45:32.000-04:00"], ["postal_code", "85045020"], ["number", "3454"], ["created_at", "2021-04-28 15:26:59.632142"], ["updated_at", "2021-04-28 15:26:59.632142"]]
+  [1m[36mCustomer Create (1.6ms)[0m  [1m[32mINSERT INTO "customers" ("external_id", "name", "email", "contact", "order_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["external_id", "136226073"], ["name", "JOHN DOE"], ["email", "john@doe.com"], ["contact", "41999999999"], ["order_id", 11], ["created_at", "2021-04-28 15:26:59.639206"], ["updated_at", "2021-04-28 15:26:59.639206"]]
+  [1m[36mItem Create (1.4ms)[0m  [1m[32mINSERT INTO "items" ("external_code", "name", "price", "quantity", "total", "order_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["external_code", "IT4801901403"], ["name", "Produto de Testes"], ["price", 49.9], ["quantity", 1], ["total", 49.9], ["order_id", 11], ["created_at", "2021-04-28 15:26:59.642047"], ["updated_at", "2021-04-28 15:26:59.642047"]]
+  [1m[36mPayment Create (1.2ms)[0m  [1m[32mINSERT INTO "payments" ("modality", "value", "order_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["modality", "CREDIT_CARD"], ["value", 55.04], ["order_id", 11], ["created_at", "2021-04-28 15:26:59.644437"], ["updated_at", "2021-04-28 15:26:59.644437"]]
+  [1m[35m (0.9ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 202 Accepted in 647ms (Views: 0.2ms | ActiveRecord: 9.9ms | Allocations: 13116)
+  [1m[35m (2.9ms)[0m  [1m[34mSELECT COUNT(*) FROM "orders"[0m
+  [1m[35m (3.0ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (2.5ms)[0m  [1m[35mBEGIN[0m
+Started POST "/api/v1/orders" for 127.0.0.1 at 2021-04-28 12:27:00 -0300
+Processing by Api::V1::OrdersController#create as HTML
+  Parameters: {"id"=>"9987071", "store_id"=>"282", "date_created"=>"2019-06-24T16:45:32.000-04:00", "date_closed"=>"2019-06-24T16:45:35.000-04:00", "last_updated"=>"2019-06-25T13:26:49.000-04:00", "total_amount"=>"49.9", "total_shipping"=>"5.14", "total_amount_with_shipping"=>"55.04", "paid_amount"=>"55.04", "expiration_date"=>"2019-07-22T16:45:35.000-04:00", "order_items"=>[{"item"=>{"id"=>"IT4801901403", "title"=>"Produto de Testes"}, "quantity"=>"1", "unit_price"=>"49.9", "full_unit_price"=>"49.9"}], "payments"=>[{"id"=>"12312313", "order_id"=>"9987071", "payer_id"=>"414138", "installments"=>"1", "payment_type"=>"credit_card", "status"=>"paid", "transaction_amount"=>"49.9", "taxes_amount"=>"0", "shipping_cost"=>"5.14", "total_paid_amount"=>"55.04", "installment_amount"=>"55.04", "date_approved"=>"2019-06-24T16:45:35.000-04:00", "date_created"=>"2019-06-24T16:45:33.000-04:00"}], "shipping"=>{"id"=>"43444211797", "shipment_type"=>"shipping", "date_created"=>"2019-06-24T16:45:33.000-04:00", "receiver_address"=>{"id"=>"1051695306", "address_line"=>"Rua de Testes Fake 3454", "street_name"=>"Rua de Testes Fake", "street_number"=>"3454", "comment"=>"galpao", "zip_code"=>"85045020", "city"=>{"name"=>"Cidade de Testes"}, "state"=>{"id"=>"SP", "name"=>"São Paulo"}, "country"=>{"id"=>"BR", "name"=>"Brasil"}, "neighborhood"=>{"id"=>nil, "name"=>"Vila de Testes"}, "latitude"=>"-23.629037", "longitude"=>"-46.712689", "receiver_phone"=>"41999999999"}}, "status"=>"paid", "buyer"=>{"id"=>"136226073", "nickname"=>"JOHN DOE", "email"=>"john@doe.com", "phone"=>{"area_code"=>"41", "number"=>"999999999"}, "first_name"=>"John", "last_name"=>"Doe", "billing_info"=>{"doc_type"=>"CPF", "doc_number"=>"09487965477"}}}
+  [1m[35m (1.5ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOrder Create (1.8ms)[0m  [1m[32mINSERT INTO "orders" ("external_code", "store_id", "sub_total", "delivery_fee", "total", "country", "state", "city", "district", "street", "complement", "latitude", "longitude", "dt_order_create", "postal_code", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18) RETURNING "id"[0m  [["external_code", "9987071"], ["store_id", 282], ["sub_total", "49.90"], ["delivery_fee", "5.14"], ["total", "55.04"], ["country", "BR"], ["state", "SP"], ["city", "Cidade de Testes"], ["district", "Vila de Testes"], ["street", "Rua de Testes Fake"], ["complement", "galpao"], ["latitude", "-23.629037"], ["longitude", "-46.712689"], ["dt_order_create", "2019-06-24T16:45:32.000-04:00"], ["postal_code", "85045020"], ["number", "3454"], ["created_at", "2021-04-28 15:27:00.300999"], ["updated_at", "2021-04-28 15:27:00.300999"]]
+  [1m[36mCustomer Create (1.5ms)[0m  [1m[32mINSERT INTO "customers" ("external_id", "name", "email", "contact", "order_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["external_id", "136226073"], ["name", "JOHN DOE"], ["email", "john@doe.com"], ["contact", "41999999999"], ["order_id", 12], ["created_at", "2021-04-28 15:27:00.305783"], ["updated_at", "2021-04-28 15:27:00.305783"]]
+  [1m[36mItem Create (1.6ms)[0m  [1m[32mINSERT INTO "items" ("external_code", "name", "price", "quantity", "total", "order_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["external_code", "IT4801901403"], ["name", "Produto de Testes"], ["price", 49.9], ["quantity", 1], ["total", 49.9], ["order_id", 12], ["created_at", "2021-04-28 15:27:00.308229"], ["updated_at", "2021-04-28 15:27:00.308229"]]
+  [1m[36mPayment Create (1.8ms)[0m  [1m[32mINSERT INTO "payments" ("modality", "value", "order_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["modality", "CREDIT_CARD"], ["value", 55.04], ["order_id", 12], ["created_at", "2021-04-28 15:27:00.310801"], ["updated_at", "2021-04-28 15:27:00.310801"]]
+  [1m[35m (1.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 202 Accepted in 639ms (Views: 0.2ms | ActiveRecord: 9.2ms | Allocations: 13116)
+  [1m[35m (2.3ms)[0m  [1m[34mSELECT COUNT(*) FROM "items"[0m
+  [1m[35m (1.6ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.7ms)[0m  [1m[35mBEGIN[0m
+Started POST "/api/v1/orders" for 127.0.0.1 at 2021-04-28 12:27:00 -0300
+Processing by Api::V1::OrdersController#create as HTML
+Completed 404 Not Found in 0ms (Views: 0.1ms | ActiveRecord: 0.0ms | Allocations: 157)
+  [1m[35m (1.8ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.2ms)[0m  [1m[35mBEGIN[0m
+Started POST "/api/v1/orders" for 127.0.0.1 at 2021-04-28 12:27:00 -0300
+Processing by Api::V1::OrdersController#create as HTML
+Completed 404 Not Found in 0ms (Views: 0.1ms | ActiveRecord: 0.0ms | Allocations: 147)
+  [1m[35m (1.4ms)[0m  [1m[34mSELECT COUNT(*) FROM "orders"[0m
+  [1m[35m (1.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.8ms)[0m  [1m[35mBEGIN[0m
+Started POST "/api/v1/orders" for 127.0.0.1 at 2021-04-28 12:27:00 -0300
+Processing by Api::V1::OrdersController#create as HTML
+  Parameters: {"id"=>"9987071", "store_id"=>"282", "date_created"=>"2019-06-24T16:45:32.000-04:00", "date_closed"=>"2019-06-24T16:45:35.000-04:00", "last_updated"=>"2019-06-25T13:26:49.000-04:00", "total_amount"=>"49.9", "total_shipping"=>"5.14", "total_amount_with_shipping"=>"55.04", "paid_amount"=>"55.04", "expiration_date"=>"2019-07-22T16:45:35.000-04:00", "order_items"=>[{"item"=>{"id"=>"IT4801901403", "title"=>"Produto de Testes"}, "quantity"=>"1", "unit_price"=>"49.9", "full_unit_price"=>"49.9"}], "payments"=>[{"id"=>"12312313", "order_id"=>"9987071", "payer_id"=>"414138", "installments"=>"1", "payment_type"=>"credit_card", "status"=>"paid", "transaction_amount"=>"49.9", "taxes_amount"=>"0", "shipping_cost"=>"5.14", "total_paid_amount"=>"55.04", "installment_amount"=>"55.04", "date_approved"=>"2019-06-24T16:45:35.000-04:00", "date_created"=>"2019-06-24T16:45:33.000-04:00"}], "shipping"=>{"id"=>"43444211797", "shipment_type"=>"shipping", "date_created"=>"2019-06-24T16:45:33.000-04:00", "receiver_address"=>{"id"=>"1051695306", "address_line"=>"Rua de Testes Fake 3454", "street_name"=>"Rua de Testes Fake", "street_number"=>"3454", "comment"=>"galpao", "zip_code"=>"85045020", "city"=>{"name"=>"Cidade de Testes"}, "state"=>{"id"=>"SP", "name"=>"São Paulo"}, "country"=>{"id"=>"BR", "name"=>"Brasil"}, "neighborhood"=>{"id"=>nil, "name"=>"Vila de Testes"}, "latitude"=>"-23.629037", "longitude"=>"-46.712689", "receiver_phone"=>"41999999999"}}, "status"=>"paid", "buyer"=>{"id"=>"136226073", "nickname"=>"JOHN DOE", "email"=>"john@doe.com", "phone"=>{"area_code"=>"41", "number"=>"999999999"}, "first_name"=>"John", "last_name"=>"Doe", "billing_info"=>{"doc_type"=>"CPF", "doc_number"=>"09487965477"}}}
+  [1m[35m (2.4ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mOrder Create (2.2ms)[0m  [1m[32mINSERT INTO "orders" ("external_code", "store_id", "sub_total", "delivery_fee", "total", "country", "state", "city", "district", "street", "complement", "latitude", "longitude", "dt_order_create", "postal_code", "number", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18) RETURNING "id"[0m  [["external_code", "9987071"], ["store_id", 282], ["sub_total", "49.90"], ["delivery_fee", "5.14"], ["total", "55.04"], ["country", "BR"], ["state", "SP"], ["city", "Cidade de Testes"], ["district", "Vila de Testes"], ["street", "Rua de Testes Fake"], ["complement", "galpao"], ["latitude", "-23.629037"], ["longitude", "-46.712689"], ["dt_order_create", "2019-06-24T16:45:32.000-04:00"], ["postal_code", "85045020"], ["number", "3454"], ["created_at", "2021-04-28 15:27:00.981339"], ["updated_at", "2021-04-28 15:27:00.981339"]]
+  [1m[36mCustomer Create (1.4ms)[0m  [1m[32mINSERT INTO "customers" ("external_id", "name", "email", "contact", "order_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING "id"[0m  [["external_id", "136226073"], ["name", "JOHN DOE"], ["email", "john@doe.com"], ["contact", "41999999999"], ["order_id", 13], ["created_at", "2021-04-28 15:27:00.988804"], ["updated_at", "2021-04-28 15:27:00.988804"]]
+  [1m[36mItem Create (1.4ms)[0m  [1m[32mINSERT INTO "items" ("external_code", "name", "price", "quantity", "total", "order_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING "id"[0m  [["external_code", "IT4801901403"], ["name", "Produto de Testes"], ["price", 49.9], ["quantity", 1], ["total", 49.9], ["order_id", 13], ["created_at", "2021-04-28 15:27:00.991269"], ["updated_at", "2021-04-28 15:27:00.991269"]]
+  [1m[36mPayment Create (1.8ms)[0m  [1m[32mINSERT INTO "payments" ("modality", "value", "order_id", "created_at", "updated_at") VALUES ($1, $2, $3, $4, $5) RETURNING "id"[0m  [["modality", "CREDIT_CARD"], ["value", 55.04], ["order_id", 13], ["created_at", "2021-04-28 15:27:00.993975"], ["updated_at", "2021-04-28 15:27:00.993975"]]
+  [1m[35m (1.8ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Completed 404 Not Found in 30ms (Views: 0.1ms | ActiveRecord: 11.1ms | Allocations: 12742)
+  [1m[35m (1.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.0ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.9ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.7ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (0.8ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.8ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.0ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.5ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.0ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (2.8ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.8ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.8ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.5ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.5ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.7ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (2.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.4ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.3ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.9ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.0ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.5ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (1.1ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.2ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.8ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.0ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.8ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.1ms)[0m  [1m[31mROLLBACK[0m
+  [1m[35m (0.8ms)[0m  [1m[35mBEGIN[0m
+  [1m[35m (1.3ms)[0m  [1m[31mROLLBACK[0m
