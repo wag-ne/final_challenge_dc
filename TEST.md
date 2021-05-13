@@ -14,7 +14,7 @@ A Delivery Center está em constante expansão, e um dos pontos chave desse cres
 No fluxo atual do projeto recebemos o **[payload](spec/fixtures/raw_order.json)** do pedido, parseamos a resposta, salvamos no banco de dados e enviamos o payload parseado para o endpoint:
 
 * `verb` - `POST`
-* `url` - `delivery-center-recruitment-ap.herokuapp.com`
+* `url` - `recruitment-api.deliverycenter.com`
 * `endpoint` - `/api/v1/order`
 * `body` - [processed_order_v1.json](spec/fixtures/processed_order_v1.json)
 
@@ -22,7 +22,7 @@ No fluxo atual do projeto recebemos o **[payload](spec/fixtures/raw_order.json)*
 Durante a migração para api nova, tivemos reformulações no payload de entrada, este deverá informar o endereço do cliente em um objeto separado, como **[neste exemplo](spec/fixtures/processed_order_v2.json)**. Após a construção correta do payload, ele deve ser enviado para o endpoint:
 
 * `verb` - `POST`
-* `url` - `delivery-center-recruitment-ap.herokuapp.com`
+* `url` - `recruitment-api.deliverycenter.com`
 * `endpoint` - `/api/v2/order`
 * `headers` - `Authorization: *token*`
 * `body` - [processed_order_v2.json](spec/fixtures/processed_order_v2.json)
@@ -30,7 +30,7 @@ Durante a migração para api nova, tivemos reformulações no payload de entrad
 Nesta nova api adicionamos uma camada de segurança no consumo dos endpoints, portanto para o fluxo da nova api, você deverá consumir um endpoint que retornará o token de autenticação:
 
 * `verb` - `GET`
-* `url` - `delivery-center-recruitment-ap.herokuapp.com`
+* `url` - `recruitment-api.deliverycenter.com`
 * `endpoint` - `/auth/get_token`
 
 #
