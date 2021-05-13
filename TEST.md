@@ -51,5 +51,7 @@ Nesta nova api adicionamos uma camada de segurança no consumo dos endpoints, po
 5. Por fim, convide o usuário **deliverycenter-devs** como colaborador
 ![image](https://user-images.githubusercontent.com/22237876/118177547-39103180-b409-11eb-8884-50f4526f6ed7.png)
 
+6. Abra um PullRequest em seu repositório com o código alterado, para que possamos avaliar as alterações realizadas por você em relação à base do teste
+
 #
 *Sinta-se à vontade para alterar, organizar e limpar o código como achar necessário, assim como criar novos casos de teste, documentar o projeto e utilizar ferramentas que melhoram a qualidade e confiabilidade do código. A avaliação ocorrerá em acordo com o esforço colocado no projeto.*
