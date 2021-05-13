@@ -36,19 +36,19 @@ Nesta nova api adicionamos uma camada de segurança no consumo dos endpoints, po
 #
 
 ### Após a finalização do teste, ele deve ser entregue seguindo estes passos:
-1. Create a new private repo
-2. On the empty repo screen there is an "import" option/button enter image description here
+1. Crie um novo repositório
+2. No repositório novo, clique importar código:
 ![image](https://user-images.githubusercontent.com/22237876/118177366-fa7a7700-b408-11eb-8ac3-4fe92758db03.png)
 
-3. Click it and put the existing github repo url. There is no github option mention but it works with github repos too. enter image description here
+3. Adicione o seguinte repo: https://github.com/deliverycenter/dc.ruby.devtest
 ![image](https://user-images.githubusercontent.com/22237876/118177376-fd756780-b408-11eb-8cb1-530516902db9.png)
 
-4. Change the repository visibility to private
+4. Mude a visibilidade do projeto para privado
 ![image](https://user-images.githubusercontent.com/22237876/118177453-167e1880-b409-11eb-9ebc-bfe6d0a76b78.png)
 ![image](https://user-images.githubusercontent.com/22237876/118177483-20a01700-b409-11eb-9c48-b759a9346f2e.png)
 ![image](https://user-images.githubusercontent.com/22237876/118177497-2564cb00-b409-11eb-9760-b671f9d8eced.png)
 
-5. Finally, invite **deliverycenter-devs** as collaborator
+5. Por fim, convide o usuário **deliverycenter-devs** como colaborador
 ![image](https://user-images.githubusercontent.com/22237876/118177547-39103180-b409-11eb-8884-50f4526f6ed7.png)
 
 #
