@@ -30,17 +30,10 @@ class Api::V1::OrdersController < ApplicationController
       sub_total: sub_total,
       delivery_fee: order_params['total_shipping'].to_s,
       total: order_params['total_amount_with_shipping'].to_s,
-      country: country,
-      state: order_params['shipping']['receiver_address']['state']['id'],
-      city: order_params['shipping']['receiver_address']['city']['name'],
-      district: order_params['shipping']['receiver_address']['neighborhood']['name'],
-      street: order_params['shipping']['receiver_address']['street_name'],
-      complement: order_params['shipping']['receiver_address']['comment'],
-      latitude: order_params['shipping']['receiver_address']['latitude'],
-      longitude: order_params['shipping']['receiver_address']['longitude'],
       dt_order_create: order_params['date_created'],
       postal_code: order_params['shipping']['receiver_address']['zip_code'],
       number: order_params['shipping']['receiver_address']['street_number'],
+      address_attributes: adress,
       customer_attributes: customer_block,
       items_attributes: items_block,
       payments_attributes: payments_block
@@ -78,15 +71,29 @@ class Api::V1::OrdersController < ApplicationController
     end
   end
 
+  def address
+    receiver_address = order_params['shipping']['receiver_address']
+    {
+      country: country,
+      state: receiver_address['state']['id'],
+      city: receiver_address['city']['name'],
+      district: receiver_address['neighborhood']['name'],
+      street: receiver_address['street_name'],
+      complement: receiver_address['comment'],
+      latitude: receiver_address['latitude'],
+      longitude: receiver_address['longitude'],
+    }
+  end
+
   def customer_block
     buyer = order_params['buyer']
     buyer_phone = order_params['buyer']['phone']
 
     {
-      'external_code' => buyer['id'].to_s,
-      'name' => buyer['nickname'].to_s,
-      'email' => buyer['email'].to_s,
-      'contact' => "#{buyer_phone['area_code']}#{buyer_phone['number']}"
+      external_code: buyer['id'].to_s,
+      name: buyer['nickname'].to_s,
+      email: buyer['email'].to_s,
+      contact: "#{buyer_phone['area_code']}#{buyer_phone['number']}"
     }
   rescue NoMethodError
     {}
@@ -95,12 +102,12 @@ class Api::V1::OrdersController < ApplicationController
   def items_block
     order_params['order_items'].map do |item|
       {
-        'external_code' => item['item']['id'],
-        'name' => item['item']['title'],
-        'price' => item['full_unit_price'],
-        'quantity' => item['quantity'],
-        'total' => item['unit_price'].to_f * item['quantity'].to_i,
-        'sub_items' => []
+        external_code: item['item']['id'],
+        name: item['item']['title'],
+        price: item['full_unit_price'],
+        quantity: item['quantity'],
+        total: item['unit_price'].to_f * item['quantity'].to_i,
+        sub_items: []
       }
     end
   rescue NoMethodError
@@ -110,8 +117,8 @@ class Api::V1::OrdersController < ApplicationController
   def payments_block
     order_params['payments'].map do |payment|
       {
-        'type' => payment['payment_type'].upcase,
-        'value' => payment['total_paid_amount']
+        type: payment['payment_type'].upcase,
+        value: payment['total_paid_amount']
       }
     end
   rescue NoMethodError
