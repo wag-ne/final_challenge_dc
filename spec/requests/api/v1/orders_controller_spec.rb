@@ -11,7 +11,7 @@ describe Api::V1::OrdersController, type: :request do
 
       before do
         allow(process_service).to receive(:call).and_return(true)
-        Order.destroy_all
+        remove_all_records
         post api_v1_orders_path, params: params
       end
 
@@ -39,7 +39,10 @@ describe Api::V1::OrdersController, type: :request do
     context 'when it fails validations' do
       let(:params) { {} }
 
-      before { post api_v1_orders_path, params: params }
+      before do
+        remove_all_records
+        post api_v1_orders_path, params: params
+      end
 
       it 'respond with 404 status' do
         expect(response).to have_http_status(:not_found)
@@ -55,7 +58,7 @@ describe Api::V1::OrdersController, type: :request do
 
       before do
         allow_any_instance_of(ProcessOrderService).to receive(:call).and_return(false)
-
+        remove_all_records
         post api_v1_orders_path, params: params
       end
 

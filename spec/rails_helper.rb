@@ -27,3 +27,11 @@ Shoulda::Matchers.configure do |config|
     with.library :rails
   end
 end
+
+def remove_all_records
+  Payment.destroy_all
+  Item.destroy_all
+  Customer.destroy_all
+  Address.destroy_all
+  Order.destroy_all
+end

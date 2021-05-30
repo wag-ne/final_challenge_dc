@@ -13,7 +13,6 @@ RSpec.describe Order, type: :model do
     it { is_expected.to accept_nested_attributes_for(:items) }
     it { is_expected.to accept_nested_attributes_for(:payments) }
     it { is_expected.to accept_nested_attributes_for(:address) }
-
   end
 
   describe 'validations' do

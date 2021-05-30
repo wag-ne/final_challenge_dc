@@ -28,7 +28,7 @@ RSpec.configure do |config|
 
   RSpec.configure do |config|
     config.before(type: :request) do
-      host! "localhost:3000"
+      host! 'localhost:3000'
     end
   end
 
