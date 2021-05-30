@@ -26,5 +26,11 @@ RSpec.configure do |config|
     mocks.verify_partial_doubles = true
   end
 
+  RSpec.configure do |config|
+    config.before(type: :request) do
+      host! "localhost:3000"
+    end
+  end
+
   config.shared_context_metadata_behavior = :apply_to_host_groups
 end
