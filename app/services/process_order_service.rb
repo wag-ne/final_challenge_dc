@@ -4,16 +4,15 @@ class ProcessOrderService < BaseService
   URL = URI(ENV['API_URL']).freeze
 
   def call(payload)
-    @payload = payload
-    response = connection.request(request(payload.to_json))
+    headers = { Authorization: token(payload) }
+    response = connection.request(request(payload.to_json, headers))
 
     response.code == '200'
   end
 
   private
 
-  def request(body)
-    headers = { Authorization: token }
+  def request(body, headers)
     req = Net::HTTP::Post.new(URL.path, headers)
     req['Content-Type'] = 'application/json'
     req['X-Sent'] = Time.zone.now.strftime('%Hh%M - %d/%m/%y')
@@ -28,8 +27,8 @@ class ProcessOrderService < BaseService
     http
   end
 
-  def token
-    customer_identifier = @payload.dig('customer', 'externalCode')
+  def token(payload)
+    customer_identifier = payload.dig('customer', 'externalCode')
     token = TokenService.new.get_token(customer_identifier)
     token
   end
