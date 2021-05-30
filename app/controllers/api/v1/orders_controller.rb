@@ -20,7 +20,7 @@ class Api::V1::OrdersController < ApplicationController
   private
 
   def payload_to_camel_case
-    camel_case_payload.merge!({ total_shipping: total_shipping }).to_json
+    camel_case_payload.merge!({ total_shipping: total_shipping })
   end
 
   def payload
@@ -33,7 +33,7 @@ class Api::V1::OrdersController < ApplicationController
       dt_order_create: order_params['date_created'],
       postal_code: order_params['shipping']['receiver_address']['zip_code'],
       number: order_params['shipping']['receiver_address']['street_number'],
-      address_attributes: adress,
+      address_attributes: address_block,
       customer_attributes: customer_block,
       items_attributes: items_block,
       payments_attributes: payments_block
@@ -56,8 +56,7 @@ class Api::V1::OrdersController < ApplicationController
 
   def create_order
     attributes = payload
-    attributes[:items_attributes].map! { |hash| hash&.except!('sub_items') }
-
+    attributes[:items_attributes].map! { |hash| hash&.except!(:sub_items) }
     @order = Order.create!(attributes)
   end
 
@@ -71,7 +70,7 @@ class Api::V1::OrdersController < ApplicationController
     end
   end
 
-  def address
+  def address_block
     receiver_address = order_params['shipping']['receiver_address']
     {
       country: country,
