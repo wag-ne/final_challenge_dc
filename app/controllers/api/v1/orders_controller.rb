@@ -13,7 +13,7 @@ class Api::V1::OrdersController < ApplicationController
     if ProcessOrderService.call(@builder)
       render status: :accepted
     else
-      render status: :not_found
+      render status: :unprocessable_entity
     end
   end
 

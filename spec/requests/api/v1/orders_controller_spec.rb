@@ -11,7 +11,7 @@ describe Api::V1::OrdersController, type: :request do
 
       before do
         allow(process_service).to receive(:call).and_return(true)
-
+        Order.destroy_all
         post api_v1_orders_path, params: params
       end
 
@@ -60,7 +60,7 @@ describe Api::V1::OrdersController, type: :request do
       end
 
       it 'respond with status service unavailable' do
-        expect(response).to have_http_status(:not_found)
+        expect(response).to have_http_status(:unprocessable_entity)
       end
     end
   end
