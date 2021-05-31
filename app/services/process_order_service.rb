@@ -1,20 +1,21 @@
 # frozen_string_literal: true
 
 class ProcessOrderService < BaseService
-  URL = URI(ENV["API_URL"]).freeze
+  URL = URI(ENV['API_URL']).freeze
 
   def call(payload)
-    response = connection.request(request(payload))
+    headers = { Authorization: token(payload) }
+    response = connection.request(request(payload.to_json, headers))
 
-    response.code == "200"
+    response.code == '200'
   end
 
   private
 
-  def request(body)
-    req = Net::HTTP::Post.new(URL.path)
-    req["Content-Type"] = "application/json"
-    req["X-Sent"] = Time.zone.now.strftime("%Hh%M - %d/%m/%y")
+  def request(body, headers)
+    req = Net::HTTP::Post.new(URL.path, headers)
+    req['Content-Type'] = 'application/json'
+    req['X-Sent'] = Time.zone.now.strftime('%Hh%M - %d/%m/%y')
     req.body = body
     req
   end
@@ -24,5 +25,11 @@ class ProcessOrderService < BaseService
     http.use_ssl = true
     http.verify_mode = OpenSSL::SSL::VERIFY_NONE
     http
+  end
+
+  def token(payload)
+    customer_identifier = payload.dig('customer', 'externalCode')
+    token = TokenService.new.get_token(customer_identifier)
+    token
   end
 end
