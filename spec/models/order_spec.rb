@@ -24,5 +24,9 @@ RSpec.describe Order, type: :model do
     it { is_expected.to validate_presence_of(:dt_order_create) }
     it { is_expected.to validate_presence_of(:postal_code) }
     it { is_expected.to validate_presence_of(:number) }
+    it { is_expected.to validate_presence_of(:items) }
+    it { is_expected.to validate_presence_of(:payments) }
+    it { is_expected.to validate_presence_of(:address) }
+    it { is_expected.to validate_presence_of(:customer) }
   end
 end

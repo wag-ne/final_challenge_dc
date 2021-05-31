@@ -25,5 +25,9 @@ class Order < ApplicationRecord
             :total,
             :dt_order_create,
             :postal_code,
-            :number, presence: true
+            :number,
+            :customer,
+            :payments,
+            :address,
+            :items, presence: true
 end
