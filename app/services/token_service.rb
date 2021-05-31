@@ -9,6 +9,9 @@ class TokenService
     response = Net::HTTP.get(URL) rescue nil
 
     Rails.cache.write(block_cache_key, 'true', expires_in: EXPIRES)
-    response[10..52]
+
+    response = JSON.parse(response)
+    token = response['token']
+    token = token.chomp
   end
 end
