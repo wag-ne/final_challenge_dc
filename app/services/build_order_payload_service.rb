@@ -3,6 +3,8 @@ class BuildOrderPayloadService < BaseService
     payload(params)
   end
 
+  private
+
   def payload(params)
     {
       external_code: params['id'].to_s,
@@ -21,8 +23,6 @@ class BuildOrderPayloadService < BaseService
   rescue
     {}
   end
-
-  private
 
   def sub_total
     format('%<total>.2f', total: params['total_amount'])
