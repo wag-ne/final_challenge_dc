@@ -15,8 +15,8 @@ describe Api::V1::OrdersController, type: :request do
         post api_v1_orders_path, params: params
       end
 
-      it 'respond with 202 status accepted' do
-        expect(response).to have_http_status(:accepted)
+      it 'respond with 201 status accepted' do
+        expect(response).to have_http_status(:created)
       end
 
       it 'create new order' do
@@ -34,6 +34,10 @@ describe Api::V1::OrdersController, type: :request do
       it 'create new payment' do
         expect(Payment.count).to eq(1)
       end
+
+      it 'create new address' do
+        expect(Address.count).to eq(1)
+      end
     end
 
     context 'when it fails validations' do
@@ -44,8 +48,8 @@ describe Api::V1::OrdersController, type: :request do
         post api_v1_orders_path, params: params
       end
 
-      it 'respond with 404 status' do
-        expect(response).to have_http_status(:not_found)
+      it 'respond with 422 status' do
+        expect(response).to have_http_status(:unprocessable_entity)
       end
 
       it 'doesnt persists order' do

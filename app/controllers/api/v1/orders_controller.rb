@@ -9,7 +9,7 @@ class Api::V1::OrdersController < ApplicationController
     result = Operations::Order::Create.new.call(order_params)
 
     if result.present?
-      render status: :accepted
+      render status: :created
     else
       render status: :unprocessable_entity
     end
