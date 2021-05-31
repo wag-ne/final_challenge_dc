@@ -18,7 +18,7 @@ describe Operations::Order::Create do
     context 'when return fail' do
       it 'when exist an order' do
         expect(subject.send(:call, params)).to eq(true)
-        expect{subject.send(:call, params)}.to raise_error(StandardError) #try create an order with an existent id
+        expect(subject.send(:call, params)).to raise_error(StandardError) #try create an order with an existent id
       end
     end
   end
